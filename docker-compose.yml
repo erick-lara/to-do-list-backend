@@ -1,0 +1,31 @@
+version: "3.3"
+
+services:
+  application:
+    build: .
+    container_name: to_do_list_application
+    ports:
+      - "8080:8080"
+    networks:
+      - compose-bridge
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://to_do_list_db:5432/to_do_list_db
+    depends_on:
+      - to_do_list_db
+
+  to_do_list_db:
+    container_name: to_do_list_db
+    image: "postgres:latest"
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=root
+      - POSTGRES_DB=to_do_list_db
+    ports:
+      - "5432:5432"
+    networks:
+      - compose-bridge
+
+networks:
+  compose-bridge:
+    driver: "bridge"

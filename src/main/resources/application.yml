@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    username: root
+    password: password
+    url: jdbc:postgresql://localhost:5432/to_do_list_db
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
