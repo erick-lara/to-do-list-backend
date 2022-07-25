@@ -42,7 +42,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public void deleteTask(int id) {
-
+        databaseGateway.deleteTask(id);
     }
 
     @Override
