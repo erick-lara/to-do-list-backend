@@ -32,15 +32,13 @@ public class DatabaseGatewayImpl implements DatabaseGateway{
 
     @Override
     public Task findTaskById(int id) {
-        TaskEntity foundTask = taskRepository.findById(id)
-                .orElseThrow(IllegalArgumentException::new);
+        TaskEntity foundTask = this.findById(id);
         return TaskMapper.convertEntityToDomain(foundTask);
     }
 
     @Override
     public void updateTask(int id, TaskRequest request) {
-        TaskEntity foundTask = taskRepository.findById(id)
-                .orElseThrow(IllegalArgumentException::new);
+        TaskEntity foundTask = this.findById(id);
         foundTask.setDescription(request.getDescription());
         foundTask.setDateToFinish(request.getDateToFinish());
         taskRepository.save(foundTask);
@@ -48,8 +46,7 @@ public class DatabaseGatewayImpl implements DatabaseGateway{
 
     @Override
     public void markTaskCompleted(int id) {
-        TaskEntity foundTask = taskRepository.findById(id)
-                .orElseThrow(IllegalArgumentException::new);
+        TaskEntity foundTask = this.findById(id);
         foundTask.setFinished(true);
         foundTask.setStatus(TaskStatusEnum.FINISHED);
         taskRepository.save(foundTask);
@@ -65,8 +62,12 @@ public class DatabaseGatewayImpl implements DatabaseGateway{
 
     @Override
     public void deleteTask(int id) {
-        taskRepository.delete(taskRepository.findById(id)
-                .orElseThrow(IllegalArgumentException::new)
+        taskRepository.delete(
+                this.findById(id)
         );
+    }
+
+    private TaskEntity findById(int id) {
+        return taskRepository.findById(id).orElseThrow(IllegalArgumentException::new);
     }
 }
